@@ -51,11 +51,11 @@ function Index() {
       return;
     }
     const content = SCRIPT_TEMPLATE.split(SCRIPT_PLACEHOLDER).join(trimmed);
-    const blob = new Blob([content], { type: "application/javascript" });
+    const blob = new Blob([content], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "script.js";
+    a.download = "script.json";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -131,7 +131,7 @@ function Index() {
               </div>
               <Button onClick={handleDownload} className="w-full" size="lg">
                 <Download className="h-4 w-4 mr-2" />
-                Descargar script.js
+                Descargar script.json
               </Button>
             </CardContent>
           </Card>
