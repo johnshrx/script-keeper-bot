@@ -4,9 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
-import { ACCESS_KEYS, SCRIPT_PLACEHOLDER, SCRIPT_TEMPLATE } from "@/lib/scriptTemplate";
+import { ACCESS_KEYS, SCRIPT_PLACEHOLDER, SCRIPTS, type ScriptId } from "@/lib/scriptTemplate";
 import { Lock, Download, KeyRound, LogOut } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -18,7 +19,9 @@ const STORAGE_KEY = "ec_access_granted";
 function Index() {
   const [authed, setAuthed] = useState(false);
   const [accessKey, setAccessKey] = useState("");
+  const [scriptId, setScriptId] = useState<ScriptId>("aim_drag");
   const [userKey, setUserKey] = useState("");
+  const [fileName, setFileName] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined" && sessionStorage.getItem(STORAGE_KEY) === "1") {
@@ -42,25 +45,35 @@ function Index() {
     setAuthed(false);
     setAccessKey("");
     setUserKey("");
+    setFileName("");
   };
 
   const handleDownload = () => {
-    const trimmed = userKey.trim();
-    if (!trimmed) {
+    const trimmedKey = userKey.trim();
+    if (!trimmedKey) {
       toast.error("Ingresa tu key de cliente");
       return;
     }
-    const content = SCRIPT_TEMPLATE.split(SCRIPT_PLACEHOLDER).join(trimmed);
+    const script = SCRIPTS.find((s) => s.id === scriptId);
+    if (!script) {
+      toast.error("Selecciona un script");
+      return;
+    }
+    const rawName = fileName.trim() || script.label.replace(/\s+/g, "_");
+    const safeName = rawName.replace(/[^a-zA-Z0-9_\-]/g, "_");
+    const finalName = safeName.toLowerCase().endsWith(".json") ? safeName : `${safeName}.json`;
+
+    const content = script.template.split(SCRIPT_PLACEHOLDER).join(trimmedKey);
     const blob = new Blob([content], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "script.json";
+    a.download = finalName;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast.success("Script descargado");
+    toast.success(`Descargado: ${finalName}`);
   };
 
   return (
@@ -115,11 +128,24 @@ function Index() {
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
-              <CardDescription>
-                Pega tu key de cliente. Se inyectará en el script y podrás descargarlo.
-              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="scriptType">Tipo de script</Label>
+                <Select value={scriptId} onValueChange={(v) => setScriptId(v as ScriptId)}>
+                  <SelectTrigger id="scriptType">
+                    <SelectValue placeholder="Selecciona un script" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SCRIPTS.map((s) => (
+                      <SelectItem key={s.id} value={s.id}>
+                        {s.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="userKey">Tu key</Label>
                 <Input
@@ -129,9 +155,20 @@ function Index() {
                   onChange={(e) => setUserKey(e.target.value)}
                 />
               </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="fileName">Nombre del archivo</Label>
+                <Input
+                  id="fileName"
+                  placeholder="Ej: mi_script (se descargará como .json)"
+                  value={fileName}
+                  onChange={(e) => setFileName(e.target.value)}
+                />
+              </div>
+
               <Button onClick={handleDownload} className="w-full" size="lg">
                 <Download className="h-4 w-4 mr-2" />
-                Descargar script.json
+                Descargar .json
               </Button>
             </CardContent>
           </Card>

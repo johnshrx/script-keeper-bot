@@ -1,6 +1,6 @@
 export const SCRIPT_PLACEHOLDER = "AQUI VA LA KEY";
 
-export const SCRIPT_TEMPLATE = `async function onRequest(context, request) {
+const AIM_DRAG_SCRIPT = `async function onRequest(context, request) {
   request.headers["X-API-KEY"] = "${SCRIPT_PLACEHOLDER}"; //Aqui va la key del cliente
   return request;
 }
@@ -77,5 +77,42 @@ async function onResponse(context, request, response) {
   return response;
 }
 `;
+
+const AIM_PECHO_SCRIPT = `// EJEMPLO - Reemplazar con el script real de Aim Pecho
+async function onRequest(context, request) {
+  request.headers["X-API-KEY"] = "${SCRIPT_PLACEHOLDER}"; //Aqui va la key del cliente
+  return request;
+}
+
+async function onResponse(context, request, response) {
+  const key = "${SCRIPT_PLACEHOLDER}"; //Aqui va la key del cliente
+  // TODO: Lógica del script Aim Pecho
+  return response;
+}
+`;
+
+const AIM_CUELLO_SCRIPT = `// EJEMPLO - Reemplazar con el script real de Aim Cuello
+async function onRequest(context, request) {
+  request.headers["X-API-KEY"] = "${SCRIPT_PLACEHOLDER}"; //Aqui va la key del cliente
+  return request;
+}
+
+async function onResponse(context, request, response) {
+  const key = "${SCRIPT_PLACEHOLDER}"; //Aqui va la key del cliente
+  // TODO: Lógica del script Aim Cuello
+  return response;
+}
+`;
+
+export type ScriptId = "aim_pecho" | "aim_cuello" | "aim_drag";
+
+export const SCRIPTS: { id: ScriptId; label: string; template: string }[] = [
+  { id: "aim_pecho", label: "Aim Pecho", template: AIM_PECHO_SCRIPT },
+  { id: "aim_cuello", label: "Aim Cuello", template: AIM_CUELLO_SCRIPT },
+  { id: "aim_drag", label: "Aim Drag", template: AIM_DRAG_SCRIPT },
+];
+
+// Backwards compat
+export const SCRIPT_TEMPLATE = AIM_DRAG_SCRIPT;
 
 export const ACCESS_KEYS = ["EASYCHEATSGENERADOR2"];
