@@ -1,0 +1,18 @@
+{
+  "name": "key-delivery-bot",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Discord bot que entrega script.js con la key del cliente inyectada",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "register": "node src/register-commands.js"
+  },
+  "engines": {
+    "node": ">=18.17.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5"
+  }
+}
