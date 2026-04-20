@@ -71,9 +71,6 @@ function Index() {
           <h1 className="text-3xl font-bold tracking-tight text-foreground">
             EasyCheats Generator
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Genera tu script personalizado al instante
-          </p>
         </div>
 
         {!authed ? (
