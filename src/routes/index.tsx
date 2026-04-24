@@ -122,7 +122,7 @@ function Index() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <KeyRound className="h-5 w-5 text-primary" />
-                  <CardTitle>Generar script</CardTitle>
+                  <CardTitle>Generador Easy Proxy</CardTitle>
                 </div>
                 <Button variant="ghost" size="sm" onClick={handleLogout}>
                   <LogOut className="h-4 w-4" />
@@ -131,7 +131,7 @@ function Index() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="scriptType">Tipo de script</Label>
+                <Label htmlFor="scriptType">Tipo de Proxy</Label>
                 <Select value={scriptId} onValueChange={(v) => setScriptId(v as ScriptId)}>
                   <SelectTrigger id="scriptType">
                     <SelectValue placeholder="Selecciona un script" />
