@@ -119,7 +119,7 @@ function Index() {
         ) : (
           <div className="mb-4 flex items-start gap-2 rounded-md border border-primary/30 bg-primary/10 p-3 text-sm text-foreground">
             <AlertCircle className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-            <span>Solo los aimbots cuello estas disponibles</span>
+            <span>Solo los Proxy Cuello estan Disponibles</span>
           </div>
         )}
         {authed && (
