@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Toaster } from "@/components/ui/sonner";
 import { ACCESS_KEYS, SCRIPT_PLACEHOLDER, SCRIPTS, type ScriptId } from "@/lib/scriptTemplate";
-import { Lock, Download, KeyRound, LogOut } from "lucide-react";
+import { Lock, Download, KeyRound, LogOut, AlertCircle } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -117,6 +117,12 @@ function Index() {
             </CardContent>
           </Card>
         ) : (
+          <div className="mb-4 flex items-start gap-2 rounded-md border border-primary/30 bg-primary/10 p-3 text-sm text-foreground">
+            <AlertCircle className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+            <span>Solo los aimbots cuello estas disponibles</span>
+          </div>
+        )}
+        {authed && (
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
